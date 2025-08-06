@@ -48,6 +48,12 @@ export default function Index() {
             >
               Documentation
             </Link>
+            <Link
+              to="/demo"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
+              Live Demo
+            </Link>
             <Button size="sm" className="ml-4">
               <Github className="mr-2 h-4 w-4" />
               GitHub
