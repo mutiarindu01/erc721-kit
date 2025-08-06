@@ -7,12 +7,14 @@ Sandbox ini menyediakan environment testing yang lengkap untuk mencoba semua fit
 ## 🚀 Quick Start
 
 ### Option 1: Direct HTML
+
 ```bash
 # Buka file index.html langsung di browser
 open index.html
 ```
 
 ### Option 2: Local Server
+
 ```bash
 # Install dependencies
 npm install
@@ -24,6 +26,7 @@ npm start
 ```
 
 ### Option 3: Python Server
+
 ```bash
 # Python 3
 python -m http.server 3001
@@ -37,22 +40,26 @@ Kemudian buka browser ke `http://localhost:3001`
 ## 📋 Fitur Sandbox
 
 ### ✅ Interactive Demos
+
 - **NFT Gallery**: Preview komponen gallery dengan mock data
 - **Mint Form**: Testing form minting dengan validasi
 - **Escrow Dashboard**: Demo sistem escrow dengan UI interaktif
 - **Marketplace**: Simulasi marketplace lengkap
 
 ### ✅ Code Examples
+
 - Copy-paste code snippets
 - Implementation examples
 - Best practices
 
 ### ✅ Wallet Integration Demo
+
 - Mock wallet connection
 - Transaction simulation
 - Error handling
 
 ### ✅ Setup Guide
+
 - Step-by-step installation
 - Command line examples
 - Configuration tips
@@ -60,56 +67,62 @@ Kemudian buka browser ke `http://localhost:3001`
 ## 🧪 Testing Features
 
 ### NFT Gallery Component
+
 ```javascript
 // Test loading states
-loadGalleryDemo()
+loadGalleryDemo();
 
 // Test NFT interactions
-clickNFT(nftId)
+clickNFT(nftId);
 
 // Test filtering
-filterNFTs(criteria)
+filterNFTs(criteria);
 ```
 
 ### Mint Form Component
+
 ```javascript
 // Test form validation
-testMint()
+testMint();
 
 // Test file upload
-uploadTestImage()
+uploadTestImage();
 
 // Test metadata generation
-generateMetadata()
+generateMetadata();
 ```
 
 ### Escrow Dashboard
+
 ```javascript
 // Test escrow creation
-createTestEscrow()
+createTestEscrow();
 
 // Test status updates
-updateEscrowStatus()
+updateEscrowStatus();
 
 // Test dispute handling
-initiateDispute()
+initiateDispute();
 ```
 
 ## 📦 What's Included
 
 ### Mock Data
+
 - Sample NFT collections
 - Dummy transactions
 - Test user accounts
 - Simulated blockchain interactions
 
 ### Interactive Elements
+
 - Working forms
 - Clickable components
 - Real-time updates
 - Loading states
 
 ### Code Snippets
+
 - Copy-ready implementations
 - Configuration examples
 - Integration patterns
@@ -127,25 +140,28 @@ Semua komponen yang ditampilkan di sandbox ini adalah:
 ## 🔧 Customization
 
 ### Adding New Demos
+
 1. Create new tab in HTML
 2. Add demo content
 3. Implement JavaScript functionality
 4. Update navigation
 
 ### Modifying Mock Data
+
 ```javascript
 // Edit mockNFTs array
 const mockNFTs = [
   {
-    name: 'Your NFT Name',
-    price: '1.0 ETH',
-    image: 'your-image-url',
+    name: "Your NFT Name",
+    price: "1.0 ETH",
+    image: "your-image-url",
     // ... other properties
-  }
+  },
 ];
 ```
 
 ### Styling Changes
+
 - Edit inline styles
 - Modify Tailwind classes
 - Add custom CSS
@@ -153,6 +169,7 @@ const mockNFTs = [
 ## 📱 Mobile Support
 
 Sandbox fully responsive dan mendukung:
+
 - Mobile browsers
 - Tablet interfaces
 - Desktop environments
@@ -177,10 +194,11 @@ npx hardhat run scripts/deploy.js --network sepolia
 Ketika Anda membeli ERC721 Kit dari Gumroad, Anda akan mendapatkan:
 
 ### 📁 Complete Package
+
 ```
 erc721-kit/
 ├── contracts/              # Smart contracts
-├── frontend/              # React components  
+├── frontend/              # React components
 ├── example-app/           # Full application
 ├── sandbox/              # Testing environment (this)
 ├── scripts/              # Deployment tools
@@ -190,6 +208,7 @@ erc721-kit/
 ```
 
 ### ⚡ Instant Setup
+
 1. Download from Gumroad
 2. Extract package
 3. Run `npm install`
@@ -197,6 +216,7 @@ erc721-kit/
 5. Launch application
 
 ### 🎯 Production Features
+
 - Multi-chain deployment
 - Gas optimization
 - Security audited

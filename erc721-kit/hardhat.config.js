@@ -101,18 +101,18 @@ module.exports = {
         chainId: 42161,
         urls: {
           apiURL: "https://api.arbiscan.io/api",
-          browserURL: "https://arbiscan.io"
-        }
+          browserURL: "https://arbiscan.io",
+        },
       },
       {
         network: "optimisticEthereum",
         chainId: 10,
         urls: {
           apiURL: "https://api-optimistic.etherscan.io/api",
-          browserURL: "https://optimistic.etherscan.io"
-        }
-      }
-    ]
+          browserURL: "https://optimistic.etherscan.io",
+        },
+      },
+    ],
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,
@@ -138,11 +138,6 @@ module.exports = {
     disambiguatePaths: false,
     runOnCompile: true,
     strict: true,
-    only: [
-      "ERC721Escrow",
-      "ERC721Marketplace", 
-      "RoyaltyEngine",
-      "MockNFT"
-    ],
+    only: ["ERC721Escrow", "ERC721Marketplace", "RoyaltyEngine", "MockNFT"],
   },
 };
