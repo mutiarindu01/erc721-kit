@@ -1,7 +1,26 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Shield, Zap, Code, BookOpen, Download, Github, ExternalLink, CheckCircle, Star, Users, Boxes } from "lucide-react";
+import {
+  ArrowRight,
+  Shield,
+  Zap,
+  Code,
+  BookOpen,
+  Download,
+  Github,
+  ExternalLink,
+  CheckCircle,
+  Star,
+  Users,
+  Boxes,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Index() {
@@ -17,10 +36,16 @@ export default function Index() {
             <span className="font-bold text-xl">ERC721 Kit</span>
           </div>
           <div className="flex items-center space-x-6">
-            <Link to="/components" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              to="/components"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
               Components
             </Link>
-            <Link to="/documentation" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              to="/documentation"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
               Documentation
             </Link>
             <Button size="sm" className="ml-4">
@@ -41,7 +66,8 @@ export default function Index() {
             ERC721 Kit
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Complete NFT marketplace and escrow solution with smart contracts, React components, and deployment scripts
+            Complete NFT marketplace and escrow solution with smart contracts,
+            React components, and deployment scripts
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center mb-12">
             <Button size="lg" className="text-lg px-8">
@@ -53,7 +79,7 @@ export default function Index() {
               Documentation
             </Button>
           </div>
-          
+
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto">
             <div className="text-center">
@@ -62,7 +88,9 @@ export default function Index() {
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-primary">5+</div>
-              <div className="text-sm text-muted-foreground">Smart Contracts</div>
+              <div className="text-sm text-muted-foreground">
+                Smart Contracts
+              </div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-primary">Multi-chain</div>
@@ -76,9 +104,12 @@ export default function Index() {
       <section className="py-24 px-4 bg-muted/30">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Everything You Need for NFT Development</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Everything You Need for NFT Development
+            </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Build secure, scalable NFT applications with our comprehensive toolkit
+              Build secure, scalable NFT applications with our comprehensive
+              toolkit
             </p>
           </div>
 
@@ -91,7 +122,8 @@ export default function Index() {
                 </div>
                 <CardTitle>Smart Contracts</CardTitle>
                 <CardDescription>
-                  Production-ready ERC721 contracts with escrow, marketplace, and royalty features
+                  Production-ready ERC721 contracts with escrow, marketplace,
+                  and royalty features
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -189,7 +221,9 @@ export default function Index() {
       <section className="py-24 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Project Structure</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Project Structure
+            </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Organized, scalable architecture for professional NFT development
             </p>
@@ -198,7 +232,7 @@ export default function Index() {
           <div className="bg-card rounded-lg p-8 border">
             <pre className="text-sm overflow-x-auto">
               <code className="text-muted-foreground">
-{`erc721-kit/
+                {`erc721-kit/
 ├── contracts/
 │   ├── ERC721Escrow.sol
 │   ├── ERC721Marketplace.sol
@@ -230,14 +264,19 @@ export default function Index() {
             Ready to Build Your NFT Marketplace?
           </h2>
           <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-            Get started with ERC721 Kit and launch your NFT platform in minutes, not months
+            Get started with ERC721 Kit and launch your NFT platform in minutes,
+            not months
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <Button size="lg" variant="secondary" className="text-lg px-8">
               <Download className="mr-2 h-5 w-5" />
               Download Kit
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+            <Button
+              size="lg"
+              variant="outline"
+              className="text-lg px-8 border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+            >
               <ExternalLink className="mr-2 h-5 w-5" />
               View Demo
             </Button>
@@ -257,31 +296,68 @@ export default function Index() {
                 <span className="font-bold text-xl">ERC721 Kit</span>
               </div>
               <p className="text-sm text-muted-foreground">
-                Complete NFT development toolkit for modern blockchain applications.
+                Complete NFT development toolkit for modern blockchain
+                applications.
               </p>
             </div>
             <div>
               <h3 className="font-semibold mb-3">Product</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link to="/components" className="hover:text-foreground">Components</Link></li>
-                <li><Link to="/documentation" className="hover:text-foreground">Documentation</Link></li>
-                <li><a href="#" className="hover:text-foreground">Examples</a></li>
+                <li>
+                  <Link to="/components" className="hover:text-foreground">
+                    Components
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/documentation" className="hover:text-foreground">
+                    Documentation
+                  </Link>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-foreground">
+                    Examples
+                  </a>
+                </li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold mb-3">Resources</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground">GitHub</a></li>
-                <li><a href="#" className="hover:text-foreground">Discord</a></li>
-                <li><a href="#" className="hover:text-foreground">Support</a></li>
+                <li>
+                  <a href="#" className="hover:text-foreground">
+                    GitHub
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-foreground">
+                    Discord
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-foreground">
+                    Support
+                  </a>
+                </li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold mb-3">Legal</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground">Privacy</a></li>
-                <li><a href="#" className="hover:text-foreground">Terms</a></li>
-                <li><a href="#" className="hover:text-foreground">License</a></li>
+                <li>
+                  <a href="#" className="hover:text-foreground">
+                    Privacy
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-foreground">
+                    Terms
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-foreground">
+                    License
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

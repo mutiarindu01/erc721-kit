@@ -1,7 +1,22 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Code, Copy, ExternalLink, Boxes, ImageIcon, ShoppingCart, Shield } from "lucide-react";
+import {
+  ArrowLeft,
+  Code,
+  Copy,
+  ExternalLink,
+  Boxes,
+  ImageIcon,
+  ShoppingCart,
+  Shield,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Components() {
@@ -22,7 +37,10 @@ export default function Components() {
             <Link to="/components" className="text-sm font-medium text-primary">
               Components
             </Link>
-            <Link to="/documentation" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              to="/documentation"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
               Documentation
             </Link>
             <Button size="sm" className="ml-4">
@@ -48,8 +66,8 @@ export default function Components() {
         <div className="mb-12">
           <h1 className="text-4xl font-bold mb-4">React Components</h1>
           <p className="text-xl text-muted-foreground max-w-3xl">
-            Production-ready React components for building NFT marketplaces and escrow systems. 
-            Copy, paste, and customize to fit your needs.
+            Production-ready React components for building NFT marketplaces and
+            escrow systems. Copy, paste, and customize to fit your needs.
           </p>
         </div>
 
@@ -65,7 +83,9 @@ export default function Components() {
                   </div>
                   <div>
                     <CardTitle>NFT Gallery</CardTitle>
-                    <CardDescription>Responsive gallery for displaying NFT collections</CardDescription>
+                    <CardDescription>
+                      Responsive gallery for displaying NFT collections
+                    </CardDescription>
                   </div>
                 </div>
                 <Badge variant="secondary">React</Badge>
@@ -76,13 +96,16 @@ export default function Components() {
               <div className="bg-muted/30 rounded-lg p-6 mb-4">
                 <div className="grid grid-cols-3 gap-3">
                   {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <div key={i} className="aspect-square bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg flex items-center justify-center">
+                    <div
+                      key={i}
+                      className="aspect-square bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg flex items-center justify-center"
+                    >
                       <ImageIcon className="h-6 w-6 text-primary/60" />
                     </div>
                   ))}
                 </div>
               </div>
-              
+
               <div className="flex space-x-2">
                 <Button size="sm" variant="outline">
                   <Copy className="h-4 w-4 mr-2" />
@@ -106,7 +129,9 @@ export default function Components() {
                   </div>
                   <div>
                     <CardTitle>Mint Form</CardTitle>
-                    <CardDescription>Complete form for minting new NFTs</CardDescription>
+                    <CardDescription>
+                      Complete form for minting new NFTs
+                    </CardDescription>
                   </div>
                 </div>
                 <Badge variant="secondary">React</Badge>
@@ -125,11 +150,13 @@ export default function Components() {
                     <div className="h-24 bg-background border rounded-md"></div>
                   </div>
                   <div className="h-10 bg-primary rounded-md flex items-center justify-center">
-                    <span className="text-primary-foreground text-sm font-medium">Mint NFT</span>
+                    <span className="text-primary-foreground text-sm font-medium">
+                      Mint NFT
+                    </span>
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex space-x-2">
                 <Button size="sm" variant="outline">
                   <Copy className="h-4 w-4 mr-2" />
@@ -153,7 +180,9 @@ export default function Components() {
                   </div>
                   <div>
                     <CardTitle>Escrow Dashboard</CardTitle>
-                    <CardDescription>Monitor and manage escrow transactions</CardDescription>
+                    <CardDescription>
+                      Monitor and manage escrow transactions
+                    </CardDescription>
                   </div>
                 </div>
                 <Badge variant="secondary">React</Badge>
@@ -165,7 +194,9 @@ export default function Components() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <div className="h-4 bg-foreground/10 rounded w-24"></div>
-                    <div className="h-6 bg-green-500/20 text-green-700 rounded-full px-3 py-1 text-xs">Active</div>
+                    <div className="h-6 bg-green-500/20 text-green-700 rounded-full px-3 py-1 text-xs">
+                      Active
+                    </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
@@ -179,7 +210,7 @@ export default function Components() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex space-x-2">
                 <Button size="sm" variant="outline">
                   <Copy className="h-4 w-4 mr-2" />
@@ -203,7 +234,9 @@ export default function Components() {
                   </div>
                   <div>
                     <CardTitle>Marketplace</CardTitle>
-                    <CardDescription>Complete marketplace with buy/sell functionality</CardDescription>
+                    <CardDescription>
+                      Complete marketplace with buy/sell functionality
+                    </CardDescription>
                   </div>
                 </div>
                 <Badge variant="secondary">React</Badge>
@@ -226,7 +259,7 @@ export default function Components() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex space-x-2">
                 <Button size="sm" variant="outline">
                   <Copy className="h-4 w-4 mr-2" />
@@ -291,17 +324,16 @@ export default function Components() {
         <div className="mt-16 bg-muted/30 rounded-lg p-8">
           <h3 className="text-2xl font-bold mb-4">Getting Started</h3>
           <p className="text-muted-foreground mb-6">
-            All components are built with TypeScript and include full type definitions. 
-            They work seamlessly with the included smart contracts and deployment scripts.
+            All components are built with TypeScript and include full type
+            definitions. They work seamlessly with the included smart contracts
+            and deployment scripts.
           </p>
           <div className="flex space-x-4">
             <Button>
               <Code className="h-4 w-4 mr-2" />
               View Documentation
             </Button>
-            <Button variant="outline">
-              Download Examples
-            </Button>
+            <Button variant="outline">Download Examples</Button>
           </div>
         </div>
       </div>

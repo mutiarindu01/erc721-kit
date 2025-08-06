@@ -1,7 +1,24 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, BookOpen, Code, Download, ExternalLink, Boxes, FileText, Zap, Shield, Users } from "lucide-react";
+import {
+  ArrowLeft,
+  BookOpen,
+  Code,
+  Download,
+  ExternalLink,
+  Boxes,
+  FileText,
+  Zap,
+  Shield,
+  Users,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Documentation() {
@@ -19,10 +36,16 @@ export default function Documentation() {
             </Link>
           </div>
           <div className="flex items-center space-x-6">
-            <Link to="/components" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link
+              to="/components"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
               Components
             </Link>
-            <Link to="/documentation" className="text-sm font-medium text-primary">
+            <Link
+              to="/documentation"
+              className="text-sm font-medium text-primary"
+            >
               Documentation
             </Link>
             <Button size="sm" className="ml-4">
@@ -48,8 +71,8 @@ export default function Documentation() {
         <div className="mb-12">
           <h1 className="text-4xl font-bold mb-4">Documentation</h1>
           <p className="text-xl text-muted-foreground max-w-3xl">
-            Complete guides, API references, and examples to help you integrate ERC721 Kit 
-            into your projects quickly and efficiently.
+            Complete guides, API references, and examples to help you integrate
+            ERC721 Kit into your projects quickly and efficiently.
           </p>
         </div>
 
@@ -75,10 +98,14 @@ export default function Documentation() {
                   <div>
                     <h4 className="font-semibold mb-2">Download and Extract</h4>
                     <p className="text-muted-foreground mb-3">
-                      Download the ERC721 Kit and extract it to your project directory.
+                      Download the ERC721 Kit and extract it to your project
+                      directory.
                     </p>
                     <div className="bg-muted rounded-lg p-4">
-                      <code className="text-sm">wget https://example.com/erc721-kit.zip && unzip erc721-kit.zip</code>
+                      <code className="text-sm">
+                        wget https://example.com/erc721-kit.zip && unzip
+                        erc721-kit.zip
+                      </code>
                     </div>
                   </div>
                 </div>
@@ -90,10 +117,13 @@ export default function Documentation() {
                   <div>
                     <h4 className="font-semibold mb-2">Install Dependencies</h4>
                     <p className="text-muted-foreground mb-3">
-                      Install required dependencies for the smart contracts and frontend.
+                      Install required dependencies for the smart contracts and
+                      frontend.
                     </p>
                     <div className="bg-muted rounded-lg p-4">
-                      <code className="text-sm">npm install && cd frontend && npm install</code>
+                      <code className="text-sm">
+                        npm install && cd frontend && npm install
+                      </code>
                     </div>
                   </div>
                 </div>
@@ -108,7 +138,9 @@ export default function Documentation() {
                       Deploy the smart contracts to your preferred network.
                     </p>
                     <div className="bg-muted rounded-lg p-4">
-                      <code className="text-sm">npx hardhat run scripts/deploy.js --network sepolia</code>
+                      <code className="text-sm">
+                        npx hardhat run scripts/deploy.js --network sepolia
+                      </code>
                     </div>
                   </div>
                 </div>
@@ -332,11 +364,11 @@ export function Marketplace() {
           <div className="text-center mb-8">
             <h3 className="text-2xl font-bold mb-4">Need Help?</h3>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Join our community or get in touch with our support team for assistance with integration, 
-              customization, or troubleshooting.
+              Join our community or get in touch with our support team for
+              assistance with integration, customization, or troubleshooting.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card className="text-center">
               <CardHeader>

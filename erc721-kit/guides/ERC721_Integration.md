@@ -47,6 +47,7 @@ ERC721 Kit provides a complete solution for building NFT marketplaces with the f
 ### Installation
 
 1. **Download and Extract the Kit**
+
    ```bash
    # Download the kit (replace with actual download URL)
    wget https://example.com/erc721-kit.zip
@@ -55,10 +56,11 @@ ERC721 Kit provides a complete solution for building NFT marketplaces with the f
    ```
 
 2. **Install Dependencies**
+
    ```bash
    # Install smart contract dependencies
    npm install
-   
+
    # Install frontend dependencies
    cd frontend
    npm install
@@ -66,19 +68,21 @@ ERC721 Kit provides a complete solution for building NFT marketplaces with the f
    ```
 
 3. **Set Up Environment**
+
    ```bash
    # Copy environment template
    cp .env.example .env
-   
+
    # Edit .env with your configuration
    nano .env
    ```
 
 4. **Deploy Contracts**
+
    ```bash
    # Deploy to local network
    npx hardhat run scripts/deploy.js --network localhost
-   
+
    # Deploy to testnet (e.g., Sepolia)
    npx hardhat run scripts/deploy.js --network sepolia
    ```
@@ -98,8 +102,8 @@ After deployment, you'll have three main contracts:
 ```javascript
 const contracts = {
   ERC721Marketplace: "0x...", // Main marketplace contract
-  ERC721Escrow: "0x...",      // Escrow service
-  RoyaltyEngine: "0x..."      // Royalty management
+  ERC721Escrow: "0x...", // Escrow service
+  RoyaltyEngine: "0x...", // Royalty management
 };
 ```
 
@@ -163,7 +167,7 @@ escrow.setContractWhitelist(nftContractAddress, true);
 The `useERC721Marketplace` hook provides easy integration:
 
 ```javascript
-import useERC721Marketplace from './hooks/useERC721Marketplace';
+import useERC721Marketplace from "./hooks/useERC721Marketplace";
 
 function MyNFTApp() {
   const {
@@ -173,18 +177,15 @@ function MyNFTApp() {
     listItem,
     buyItem,
     userListings,
-    escrows
-  } = useERC721Marketplace(
-    MARKETPLACE_ADDRESS,
-    ESCROW_ADDRESS
-  );
+    escrows,
+  } = useERC721Marketplace(MARKETPLACE_ADDRESS, ESCROW_ADDRESS);
 
   // Connect wallet
   const handleConnect = async () => {
     try {
       await connectWallet();
     } catch (error) {
-      console.error('Connection failed:', error);
+      console.error("Connection failed:", error);
     }
   };
 
@@ -192,9 +193,9 @@ function MyNFTApp() {
   const handleListNFT = async (nftContract, tokenId, price) => {
     try {
       await listItem(nftContract, tokenId, price, 7); // 7 days
-      alert('NFT listed successfully!');
+      alert("NFT listed successfully!");
     } catch (error) {
-      console.error('Listing failed:', error);
+      console.error("Listing failed:", error);
     }
   };
 
@@ -218,7 +219,7 @@ function MyNFTApp() {
             <div className="bg-white p-6 rounded-lg shadow">
               <h3 className="text-lg font-semibold mb-4">Active Escrows</h3>
               <div className="space-y-3">
-                {escrows.map(escrow => (
+                {escrows.map((escrow) => (
                   <div key={escrow.id} className="border p-3 rounded">
                     <p>Escrow #{escrow.id}</p>
                     <p>Status: {escrow.status}</p>
@@ -240,14 +241,14 @@ function MyNFTApp() {
 #### NFT Gallery
 
 ```javascript
-import NFTGallery from './components/NFTGallery';
+import NFTGallery from "./components/NFTGallery";
 
 function MarketplacePage() {
   const [nfts, setNfts] = useState([]);
 
   const handleNFTClick = (nft) => {
     // Handle NFT selection
-    console.log('Selected NFT:', nft);
+    console.log("Selected NFT:", nft);
   };
 
   return (
@@ -264,7 +265,7 @@ function MarketplacePage() {
 #### Mint Form
 
 ```javascript
-import MintForm from './components/MintForm';
+import MintForm from "./components/MintForm";
 
 function MintPage() {
   const { mint } = useERC721Marketplace();
@@ -272,18 +273,18 @@ function MintPage() {
   const handleMint = async (mintData) => {
     // Process mint data (upload to IPFS, etc.)
     const tokenURI = await uploadToIPFS(mintData.metadata);
-    
+
     // Mint the NFT
     await mint({
       ...mintData,
-      tokenURI
+      tokenURI,
     });
   };
 
   return (
     <MintForm
       onMint={handleMint}
-      onSuccess={() => alert('NFT minted successfully!')}
+      onSuccess={() => alert("NFT minted successfully!")}
       userAddress={userAddress}
     />
   );
@@ -293,7 +294,7 @@ function MintPage() {
 #### Escrow Dashboard
 
 ```javascript
-import EscrowDashboard from './components/EscrowDashboard';
+import EscrowDashboard from "./components/EscrowDashboard";
 
 function EscrowPage() {
   const {
@@ -301,7 +302,7 @@ function EscrowPage() {
     approveEscrow,
     cancelEscrow,
     initiateDispute,
-    createEscrow
+    createEscrow,
   } = useERC721Marketplace();
 
   return (
@@ -329,19 +330,19 @@ module.exports = {
     sepolia: {
       url: `https://sepolia.infura.io/v3/${INFURA_KEY}`,
       accounts: [PRIVATE_KEY],
-      chainId: 11155111
+      chainId: 11155111,
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
       accounts: [PRIVATE_KEY],
-      chainId: 1
+      chainId: 1,
     },
     polygon: {
       url: `https://polygon-mainnet.infura.io/v3/${INFURA_KEY}`,
       accounts: [PRIVATE_KEY],
-      chainId: 137
-    }
-  }
+      chainId: 137,
+    },
+  },
 };
 ```
 
@@ -361,6 +362,7 @@ npx hardhat run scripts/verify.js --network sepolia
 ### Post-Deployment Configuration
 
 1. **Update Frontend Config**
+
    ```javascript
    // frontend/config/contracts.json
    {
@@ -377,6 +379,7 @@ npx hardhat run scripts/verify.js --network sepolia
    ```
 
 2. **Whitelist NFT Contracts**
+
    ```bash
    npx hardhat run scripts/whitelist-contracts.js --network sepolia
    ```
@@ -426,15 +429,15 @@ export const APP_CONFIG = {
   // Network settings
   SUPPORTED_NETWORKS: [1, 5, 137, 80001], // Mainnet, Goerli, Polygon, Mumbai
   DEFAULT_NETWORK: 5, // Goerli
-  
+
   // Contract settings
   MARKETPLACE_ADDRESS: process.env.REACT_APP_MARKETPLACE_ADDRESS,
   ESCROW_ADDRESS: process.env.REACT_APP_ESCROW_ADDRESS,
-  
+
   // IPFS settings
-  IPFS_GATEWAY: 'https://ipfs.io/ipfs/',
+  IPFS_GATEWAY: "https://ipfs.io/ipfs/",
   PINATA_API_KEY: process.env.REACT_APP_PINATA_API_KEY,
-  
+
   // UI settings
   ITEMS_PER_PAGE: 20,
   MAX_FILE_SIZE: 10 * 1024 * 1024, // 10MB
@@ -476,20 +479,22 @@ The kit includes comprehensive tests covering:
 
 ```javascript
 // Example integration test
-describe("Full Marketplace Flow", function() {
-  it("Should complete end-to-end NFT sale", async function() {
+describe("Full Marketplace Flow", function () {
+  it("Should complete end-to-end NFT sale", async function () {
     // 1. Mint NFT
     await nftContract.mint(seller.address, tokenId);
-    
+
     // 2. Approve marketplace
     await nftContract.connect(seller).approve(marketplace.address, tokenId);
-    
+
     // 3. List NFT
-    await marketplace.connect(seller).listItem(nftContract.address, tokenId, price, duration);
-    
+    await marketplace
+      .connect(seller)
+      .listItem(nftContract.address, tokenId, price, duration);
+
     // 4. Buy NFT
     await marketplace.connect(buyer).buyItem(listingId, { value: price });
-    
+
     // 5. Verify ownership transfer
     expect(await nftContract.ownerOf(tokenId)).to.equal(buyer.address);
   });
@@ -501,16 +506,19 @@ describe("Full Marketplace Flow", function() {
 ### Smart Contract Security
 
 1. **Access Controls**
+
    - Owner-only functions for fee and configuration updates
    - Participant-only functions for escrow operations
    - Whitelist mechanism for NFT contracts
 
 2. **Reentrancy Protection**
+
    - All external calls use ReentrancyGuard
    - State changes before external calls
    - Proper CEI (Checks-Effects-Interactions) pattern
 
 3. **Integer Overflow Protection**
+
    - SafeMath usage (Solidity 0.8+ has built-in protection)
    - Reasonable limits on fees and values
 
@@ -522,25 +530,27 @@ describe("Full Marketplace Flow", function() {
 ### Frontend Security
 
 1. **Wallet Interaction**
+
    ```javascript
    // Always validate addresses
    if (!ethers.utils.isAddress(address)) {
-     throw new Error('Invalid address');
+     throw new Error("Invalid address");
    }
-   
+
    // Check network
    if (network.chainId !== EXPECTED_CHAIN_ID) {
-     throw new Error('Wrong network');
+     throw new Error("Wrong network");
    }
    ```
 
 2. **Input Validation**
+
    ```javascript
    // Validate price inputs
    const validatePrice = (price) => {
      const priceWei = ethers.utils.parseEther(price);
      if (priceWei.lte(0)) {
-       throw new Error('Price must be greater than 0');
+       throw new Error("Price must be greater than 0");
      }
      return priceWei;
    };
@@ -551,7 +561,7 @@ describe("Full Marketplace Flow", function() {
    // Validate metadata
    const validateMetadata = (metadata) => {
      if (!metadata.name || !metadata.description) {
-       throw new Error('Invalid metadata');
+       throw new Error("Invalid metadata");
      }
      // Additional validation...
    };
@@ -595,14 +605,15 @@ await nftContract.setApprovalForAll(marketplaceAddress, true);
 ```javascript
 // Switch to correct network
 await window.ethereum.request({
-  method: 'wallet_switchEthereumChain',
-  params: [{ chainId: '0x5' }], // Goerli
+  method: "wallet_switchEthereumChain",
+  params: [{ chainId: "0x5" }], // Goerli
 });
 ```
 
 #### 4. High Gas Fees
 
 **Solutions**:
+
 - Use gas estimation: `await contract.estimateGas.functionName()`
 - Batch operations when possible
 - Consider Layer 2 solutions (Polygon, Arbitrum)
@@ -610,6 +621,7 @@ await window.ethereum.request({
 #### 5. IPFS Upload Failures
 
 **Solutions**:
+
 - Check IPFS gateway connectivity
 - Validate file size and format
 - Use alternative IPFS services (Pinata, Infura)
@@ -617,18 +629,29 @@ await window.ethereum.request({
 ### Debugging Tips
 
 1. **Contract Events**: Monitor events for debugging:
+
    ```javascript
-   marketplace.on("ItemListed", (listingId, seller, nftContract, tokenId, price) => {
-     console.log('New listing:', { listingId, seller, nftContract, tokenId, price });
-   });
+   marketplace.on(
+     "ItemListed",
+     (listingId, seller, nftContract, tokenId, price) => {
+       console.log("New listing:", {
+         listingId,
+         seller,
+         nftContract,
+         tokenId,
+         price,
+       });
+     },
+   );
    ```
 
 2. **Transaction Tracing**: Use tools like Tenderly for transaction analysis
 
 3. **Local Development**: Use Hardhat's console.log for debugging:
+
    ```solidity
    import "hardhat/console.sol";
-   
+
    function debugFunction() public {
      console.log("Debug value:", someVariable);
    }
@@ -645,11 +668,11 @@ const {
   isLoading,
   error,
   userAddress,
-  
+
   // Connection functions
   connectWallet,
   disconnectWallet,
-  
+
   // Marketplace functions
   listItem,
   buyItem,
@@ -657,71 +680,74 @@ const {
   updateListing,
   createOffer,
   acceptOffer,
-  
+
   // Escrow functions
   createEscrow,
   approveEscrow,
   cancelEscrow,
   initiateDispute,
-  
+
   // NFT utilities
   approveNFT,
   setApprovalForAll,
   getNFTMetadata,
-  
+
   // Data
   listings,
   userListings,
   userOffers,
   escrows,
   marketplaceStats,
-  
+
   // Utilities
-  refresh
+  refresh,
 } = useERC721Marketplace(marketplaceAddress, escrowAddress, options);
 ```
 
 ### Component Props
 
 #### NFTGallery
+
 ```javascript
 <NFTGallery
-  nfts={Array}              // NFT data array
-  onNFTClick={Function}     // Click handler
-  loading={Boolean}         // Loading state
-  error={String}            // Error message
-  className={String}        // CSS classes
-  gridCols={String}         // Grid columns
-  showPrices={Boolean}      // Show prices
-  showOwner={Boolean}       // Show owner info
+  nfts={Array} // NFT data array
+  onNFTClick={Function} // Click handler
+  loading={Boolean} // Loading state
+  error={String} // Error message
+  className={String} // CSS classes
+  gridCols={String} // Grid columns
+  showPrices={Boolean} // Show prices
+  showOwner={Boolean} // Show owner info
 />
 ```
 
 #### MintForm
+
 ```javascript
 <MintForm
-  onMint={Function}         // Mint handler
-  onSuccess={Function}      // Success callback
-  onError={Function}        // Error callback
-  loading={Boolean}         // Loading state
-  contractAddress={String}  // Contract address
-  userAddress={String}      // User address
-  className={String}        // CSS classes
+  onMint={Function} // Mint handler
+  onSuccess={Function} // Success callback
+  onError={Function} // Error callback
+  loading={Boolean} // Loading state
+  contractAddress={String} // Contract address
+  userAddress={String} // User address
+  className={String} // CSS classes
 />
 ```
 
 #### EscrowDashboard
+
 ```javascript
 <EscrowDashboard
-  userAddress={String}      // User address
-  escrows={Array}           // Escrow data
-  onApproveEscrow={Function}    // Approve handler
-  onCancelEscrow={Function}     // Cancel handler
-  onInitiateDispute={Function}  // Dispute handler
-  onCreateEscrow={Function}     // Create handler
-  loading={Boolean}         // Loading state
-  error={String}            // Error message
-  className={String}        // CSS classes
+  userAddress={String} // User address
+  escrows={Array} // Escrow data
+  onApproveEscrow={Function} // Approve handler
+  onCancelEscrow={Function} // Cancel handler
+  onInitiateDispute={Function} // Dispute handler
+  onCreateEscrow={Function} // Create handler
+  loading={Boolean} // Loading state
+  error={String} // Error message
+  className={String} // CSS classes
 />
 ```
 
@@ -783,4 +809,4 @@ This project is licensed under the MIT License. See [LICENSE](./LICENSE) for det
 
 ---
 
-*This guide covers the essential aspects of integrating ERC721 Kit. For advanced use cases and customization, refer to the individual component documentation and source code.*
+_This guide covers the essential aspects of integrating ERC721 Kit. For advanced use cases and customization, refer to the individual component documentation and source code._

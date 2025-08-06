@@ -9,48 +9,48 @@ const NETWORK_CONFIG = {
     feeRecipient: "0x0000000000000000000000000000000000000000", // Replace with actual address
     disputeResolver: "0x0000000000000000000000000000000000000000", // Replace with actual address
     verify: true,
-    blockConfirmations: 6
+    blockConfirmations: 6,
   },
   // Ethereum Sepolia Testnet
   sepolia: {
     feeRecipient: "0x0000000000000000000000000000000000000000", // Replace with actual address
     disputeResolver: "0x0000000000000000000000000000000000000000", // Replace with actual address
     verify: true,
-    blockConfirmations: 3
+    blockConfirmations: 3,
   },
   // Polygon Mainnet
   polygon: {
     feeRecipient: "0x0000000000000000000000000000000000000000", // Replace with actual address
     disputeResolver: "0x0000000000000000000000000000000000000000", // Replace with actual address
     verify: true,
-    blockConfirmations: 5
+    blockConfirmations: 5,
   },
   // Polygon Mumbai Testnet
   mumbai: {
     feeRecipient: "0x0000000000000000000000000000000000000000", // Replace with actual address
     disputeResolver: "0x0000000000000000000000000000000000000000", // Replace with actual address
     verify: true,
-    blockConfirmations: 2
+    blockConfirmations: 2,
   },
   // Local/Hardhat Network
   localhost: {
     feeRecipient: null, // Will use deployer address
     disputeResolver: null, // Will use deployer address
     verify: false,
-    blockConfirmations: 1
+    blockConfirmations: 1,
   },
   hardhat: {
     feeRecipient: null, // Will use deployer address
     disputeResolver: null, // Will use deployer address
     verify: false,
-    blockConfirmations: 1
-  }
+    blockConfirmations: 1,
+  },
 };
 
 async function main() {
   const networkName = network.name;
   const config = NETWORK_CONFIG[networkName];
-  
+
   if (!config) {
     throw new Error(`No configuration found for network: ${networkName}`);
   }
@@ -61,7 +61,7 @@ async function main() {
   // Get deployer
   const [deployer] = await ethers.getSigners();
   console.log(`\n📝 Deploying with account: ${deployer.address}`);
-  
+
   const balance = await deployer.getBalance();
   console.log(`💰 Account balance: ${ethers.utils.formatEther(balance)} ETH`);
 
@@ -81,34 +81,42 @@ async function main() {
     const RoyaltyEngine = await ethers.getContractFactory("RoyaltyEngine");
     const royaltyEngine = await RoyaltyEngine.deploy();
     await royaltyEngine.deployed();
-    
+
     console.log(`✅ RoyaltyEngine deployed to: ${royaltyEngine.address}`);
     deployments.RoyaltyEngine = {
       address: royaltyEngine.address,
-      constructorArgs: []
+      constructorArgs: [],
     };
 
     // Wait for block confirmations
     if (config.blockConfirmations > 1) {
-      console.log(`⏳ Waiting for ${config.blockConfirmations} block confirmations...`);
+      console.log(
+        `⏳ Waiting for ${config.blockConfirmations} block confirmations...`,
+      );
       await royaltyEngine.deployTransaction.wait(config.blockConfirmations);
     }
 
     // 2. Deploy ERC721Marketplace
     console.log(`\n📋 2. Deploying ERC721Marketplace...`);
-    const ERC721Marketplace = await ethers.getContractFactory("ERC721Marketplace");
-    const marketplace = await ERC721Marketplace.deploy(feeRecipient, royaltyEngine.address);
+    const ERC721Marketplace =
+      await ethers.getContractFactory("ERC721Marketplace");
+    const marketplace = await ERC721Marketplace.deploy(
+      feeRecipient,
+      royaltyEngine.address,
+    );
     await marketplace.deployed();
-    
+
     console.log(`✅ ERC721Marketplace deployed to: ${marketplace.address}`);
     deployments.ERC721Marketplace = {
       address: marketplace.address,
-      constructorArgs: [feeRecipient, royaltyEngine.address]
+      constructorArgs: [feeRecipient, royaltyEngine.address],
     };
 
     // Wait for block confirmations
     if (config.blockConfirmations > 1) {
-      console.log(`⏳ Waiting for ${config.blockConfirmations} block confirmations...`);
+      console.log(
+        `⏳ Waiting for ${config.blockConfirmations} block confirmations...`,
+      );
       await marketplace.deployTransaction.wait(config.blockConfirmations);
     }
 
@@ -117,16 +125,18 @@ async function main() {
     const ERC721Escrow = await ethers.getContractFactory("ERC721Escrow");
     const escrow = await ERC721Escrow.deploy(feeRecipient, disputeResolver);
     await escrow.deployed();
-    
+
     console.log(`✅ ERC721Escrow deployed to: ${escrow.address}`);
     deployments.ERC721Escrow = {
       address: escrow.address,
-      constructorArgs: [feeRecipient, disputeResolver]
+      constructorArgs: [feeRecipient, disputeResolver],
     };
 
     // Wait for block confirmations
     if (config.blockConfirmations > 1) {
-      console.log(`⏳ Waiting for ${config.blockConfirmations} block confirmations...`);
+      console.log(
+        `⏳ Waiting for ${config.blockConfirmations} block confirmations...`,
+      );
       await escrow.deployTransaction.wait(config.blockConfirmations);
     }
 
@@ -135,7 +145,10 @@ async function main() {
 
     // Set default royalty (2.5%)
     console.log(`Setting default royalty to 2.5% for fee recipient...`);
-    const setDefaultRoyaltyTx = await royaltyEngine.setDefaultRoyalty(feeRecipient, 250);
+    const setDefaultRoyaltyTx = await royaltyEngine.setDefaultRoyalty(
+      feeRecipient,
+      250,
+    );
     await setDefaultRoyaltyTx.wait();
     console.log(`✅ Default royalty set`);
 
@@ -163,8 +176,8 @@ async function main() {
         disputeResolver,
         defaultRoyaltyPercentage: "2.5%",
         marketplaceFeePercentage: "2.5%",
-        escrowFeePercentage: "2.5%"
-      }
+        escrowFeePercentage: "2.5%",
+      },
     };
 
     // Create deployments directory if it doesn't exist
@@ -185,21 +198,24 @@ async function main() {
         contracts: {
           ERC721Marketplace: {
             address: marketplace.address,
-            abi: "ERC721Marketplace" // Reference to ABI file
+            abi: "ERC721Marketplace", // Reference to ABI file
           },
           ERC721Escrow: {
             address: escrow.address,
-            abi: "ERC721Escrow" // Reference to ABI file
+            abi: "ERC721Escrow", // Reference to ABI file
           },
           RoyaltyEngine: {
             address: royaltyEngine.address,
-            abi: "RoyaltyEngine" // Reference to ABI file
-          }
-        }
-      }
+            abi: "RoyaltyEngine", // Reference to ABI file
+          },
+        },
+      },
     };
 
-    const frontendConfigFile = path.join(__dirname, "../frontend/config/contracts.json");
+    const frontendConfigFile = path.join(
+      __dirname,
+      "../frontend/config/contracts.json",
+    );
     const frontendConfigDir = path.dirname(frontendConfigFile);
     if (!fs.existsSync(frontendConfigDir)) {
       fs.mkdirSync(frontendConfigDir, { recursive: true });
@@ -208,7 +224,7 @@ async function main() {
     // Load existing config and merge
     let existingConfig = {};
     if (fs.existsSync(frontendConfigFile)) {
-      existingConfig = JSON.parse(fs.readFileSync(frontendConfigFile, 'utf8'));
+      existingConfig = JSON.parse(fs.readFileSync(frontendConfigFile, "utf8"));
     }
 
     const mergedConfig = { ...existingConfig, ...frontendConfig };
@@ -223,34 +239,47 @@ async function main() {
     console.log(`└─ ERC721Escrow: ${escrow.address}`);
 
     // Contract verification
-    if (config.verify && networkName !== "localhost" && networkName !== "hardhat") {
+    if (
+      config.verify &&
+      networkName !== "localhost" &&
+      networkName !== "hardhat"
+    ) {
       console.log(`\n🔍 Starting contract verification...`);
       console.log(`Note: You can also run verification separately using:`);
       console.log(`npx hardhat run scripts/verify.js --network ${networkName}`);
-      
+
       try {
-        const { exec } = require('child_process');
-        const util = require('util');
+        const { exec } = require("child_process");
+        const util = require("util");
         const execPromise = util.promisify(exec);
 
         // Verify RoyaltyEngine
         console.log(`Verifying RoyaltyEngine...`);
-        await execPromise(`npx hardhat verify --network ${networkName} ${royaltyEngine.address}`);
+        await execPromise(
+          `npx hardhat verify --network ${networkName} ${royaltyEngine.address}`,
+        );
         console.log(`✅ RoyaltyEngine verified`);
 
         // Verify ERC721Marketplace
         console.log(`Verifying ERC721Marketplace...`);
-        await execPromise(`npx hardhat verify --network ${networkName} ${marketplace.address} "${feeRecipient}" "${royaltyEngine.address}"`);
+        await execPromise(
+          `npx hardhat verify --network ${networkName} ${marketplace.address} "${feeRecipient}" "${royaltyEngine.address}"`,
+        );
         console.log(`✅ ERC721Marketplace verified`);
 
         // Verify ERC721Escrow
         console.log(`Verifying ERC721Escrow...`);
-        await execPromise(`npx hardhat verify --network ${networkName} ${escrow.address} "${feeRecipient}" "${disputeResolver}"`);
+        await execPromise(
+          `npx hardhat verify --network ${networkName} ${escrow.address} "${feeRecipient}" "${disputeResolver}"`,
+        );
         console.log(`✅ ERC721Escrow verified`);
 
         console.log(`\n✅ All contracts verified successfully!`);
       } catch (verificationError) {
-        console.log(`\n⚠️  Automatic verification failed:`, verificationError.message);
+        console.log(
+          `\n⚠️  Automatic verification failed:`,
+          verificationError.message,
+        );
         console.log(`You can verify manually using the verify.js script`);
       }
     }
@@ -262,10 +291,9 @@ async function main() {
     console.log(`4. Set up monitoring and alerts for the contracts`);
 
     return deployments;
-
   } catch (error) {
     console.error(`\n❌ Deployment failed:`, error);
-    
+
     // Save partial deployment info for debugging
     if (Object.keys(deployments).length > 0) {
       const partialDeploymentInfo = {
@@ -274,7 +302,7 @@ async function main() {
         deployer: deployer.address,
         status: "FAILED",
         error: error.message,
-        partialDeployments: deployments
+        partialDeployments: deployments,
       };
 
       const deploymentsDir = path.join(__dirname, "../deployments");
@@ -282,9 +310,17 @@ async function main() {
         fs.mkdirSync(deploymentsDir, { recursive: true });
       }
 
-      const failedDeploymentFile = path.join(deploymentsDir, `${networkName}-failed.json`);
-      fs.writeFileSync(failedDeploymentFile, JSON.stringify(partialDeploymentInfo, null, 2));
-      console.log(`💾 Partial deployment info saved to: ${failedDeploymentFile}`);
+      const failedDeploymentFile = path.join(
+        deploymentsDir,
+        `${networkName}-failed.json`,
+      );
+      fs.writeFileSync(
+        failedDeploymentFile,
+        JSON.stringify(partialDeploymentInfo, null, 2),
+      );
+      console.log(
+        `💾 Partial deployment info saved to: ${failedDeploymentFile}`,
+      );
     }
 
     process.exit(1);

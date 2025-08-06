@@ -1,11 +1,15 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
-const { time, loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
+const {
+  time,
+  loadFixture,
+} = require("@nomicfoundation/hardhat-network-helpers");
 
 describe("ERC721Escrow", function () {
   // Test fixture to deploy contracts
   async function deployEscrowFixture() {
-    const [owner, seller, buyer, feeRecipient, disputeResolver, other] = await ethers.getSigners();
+    const [owner, seller, buyer, feeRecipient, disputeResolver, other] =
+      await ethers.getSigners();
 
     // Deploy a mock ERC721 contract for testing
     const MockERC721 = await ethers.getContractFactory("MockERC721");
@@ -18,18 +22,31 @@ describe("ERC721Escrow", function () {
 
     // Deploy ERC721Escrow
     const ERC721Escrow = await ethers.getContractFactory("ERC721Escrow");
-    const escrow = await ERC721Escrow.deploy(feeRecipient.address, disputeResolver.address);
+    const escrow = await ERC721Escrow.deploy(
+      feeRecipient.address,
+      disputeResolver.address,
+    );
     await escrow.deployed();
 
     // Whitelist the mock NFT contract
     await escrow.setContractWhitelist(mockNFT.address, true);
 
-    return { escrow, mockNFT, owner, seller, buyer, feeRecipient, disputeResolver, other };
+    return {
+      escrow,
+      mockNFT,
+      owner,
+      seller,
+      buyer,
+      feeRecipient,
+      disputeResolver,
+      other,
+    };
   }
 
   describe("Deployment", function () {
     it("Should set the correct fee recipient and dispute resolver", async function () {
-      const { escrow, feeRecipient, disputeResolver } = await loadFixture(deployEscrowFixture);
+      const { escrow, feeRecipient, disputeResolver } =
+        await loadFixture(deployEscrowFixture);
 
       expect(await escrow.feeRecipient()).to.equal(feeRecipient.address);
       expect(await escrow.disputeResolver()).to.equal(disputeResolver.address);
@@ -52,7 +69,9 @@ describe("ERC721Escrow", function () {
     it("Should allow owner to whitelist contracts", async function () {
       const { escrow, mockNFT, owner } = await loadFixture(deployEscrowFixture);
 
-      await expect(escrow.connect(owner).setContractWhitelist(mockNFT.address, true))
+      await expect(
+        escrow.connect(owner).setContractWhitelist(mockNFT.address, true),
+      )
         .to.emit(escrow, "ContractWhitelisted")
         .withArgs(mockNFT.address, true);
 
@@ -60,17 +79,19 @@ describe("ERC721Escrow", function () {
     });
 
     it("Should not allow non-owner to whitelist contracts", async function () {
-      const { escrow, mockNFT, seller } = await loadFixture(deployEscrowFixture);
+      const { escrow, mockNFT, seller } =
+        await loadFixture(deployEscrowFixture);
 
       await expect(
-        escrow.connect(seller).setContractWhitelist(mockNFT.address, true)
+        escrow.connect(seller).setContractWhitelist(mockNFT.address, true),
       ).to.be.revertedWith("Ownable: caller is not the owner");
     });
   });
 
   describe("Escrow Creation", function () {
     it("Should create escrow successfully", async function () {
-      const { escrow, mockNFT, seller, buyer } = await loadFixture(deployEscrowFixture);
+      const { escrow, mockNFT, seller, buyer } =
+        await loadFixture(deployEscrowFixture);
 
       const price = ethers.utils.parseEther("1.0");
       const deadline = (await time.latest()) + 86400; // 1 day from now
@@ -79,7 +100,11 @@ describe("ERC721Escrow", function () {
       await mockNFT.connect(seller).approve(escrow.address, 1);
 
       await expect(
-        escrow.connect(seller).createEscrow(buyer.address, mockNFT.address, 1, deadline, { value: price })
+        escrow
+          .connect(seller)
+          .createEscrow(buyer.address, mockNFT.address, 1, deadline, {
+            value: price,
+          }),
       )
         .to.emit(escrow, "EscrowCreated")
         .withArgs(1, seller.address, buyer.address, mockNFT.address, 1, price);
@@ -102,40 +127,58 @@ describe("ERC721Escrow", function () {
 
       // Deploy another NFT contract that is not whitelisted
       const MockERC721 = await ethers.getContractFactory("MockERC721");
-      const unwhitelistedNFT = await MockERC721.deploy("Unwhitelisted NFT", "UNFT");
+      const unwhitelistedNFT = await MockERC721.deploy(
+        "Unwhitelisted NFT",
+        "UNFT",
+      );
       await unwhitelistedNFT.deployed();
 
       const price = ethers.utils.parseEther("1.0");
       const deadline = (await time.latest()) + 86400;
 
       await expect(
-        escrow.connect(seller).createEscrow(buyer.address, unwhitelistedNFT.address, 1, deadline, { value: price })
+        escrow
+          .connect(seller)
+          .createEscrow(buyer.address, unwhitelistedNFT.address, 1, deadline, {
+            value: price,
+          }),
       ).to.be.revertedWith("Contract not whitelisted");
     });
 
     it("Should fail if seller doesn't own the NFT", async function () {
-      const { escrow, mockNFT, seller, buyer, other } = await loadFixture(deployEscrowFixture);
+      const { escrow, mockNFT, seller, buyer, other } =
+        await loadFixture(deployEscrowFixture);
 
       const price = ethers.utils.parseEther("1.0");
       const deadline = (await time.latest()) + 86400;
 
       await expect(
-        escrow.connect(other).createEscrow(buyer.address, mockNFT.address, 1, deadline, { value: price })
+        escrow
+          .connect(other)
+          .createEscrow(buyer.address, mockNFT.address, 1, deadline, {
+            value: price,
+          }),
       ).to.be.revertedWith("Seller doesn't own NFT");
     });
 
     it("Should fail if price is zero", async function () {
-      const { escrow, mockNFT, seller, buyer } = await loadFixture(deployEscrowFixture);
+      const { escrow, mockNFT, seller, buyer } =
+        await loadFixture(deployEscrowFixture);
 
       const deadline = (await time.latest()) + 86400;
 
       await expect(
-        escrow.connect(seller).createEscrow(buyer.address, mockNFT.address, 1, deadline, { value: 0 })
+        escrow
+          .connect(seller)
+          .createEscrow(buyer.address, mockNFT.address, 1, deadline, {
+            value: 0,
+          }),
       ).to.be.revertedWith("Price must be greater than 0");
     });
 
     it("Should fail if deadline is in the past", async function () {
-      const { escrow, mockNFT, seller, buyer } = await loadFixture(deployEscrowFixture);
+      const { escrow, mockNFT, seller, buyer } =
+        await loadFixture(deployEscrowFixture);
 
       const price = ethers.utils.parseEther("1.0");
       const deadline = (await time.latest()) - 3600; // 1 hour ago
@@ -143,7 +186,11 @@ describe("ERC721Escrow", function () {
       await mockNFT.connect(seller).approve(escrow.address, 1);
 
       await expect(
-        escrow.connect(seller).createEscrow(buyer.address, mockNFT.address, 1, deadline, { value: price })
+        escrow
+          .connect(seller)
+          .createEscrow(buyer.address, mockNFT.address, 1, deadline, {
+            value: price,
+          }),
       ).to.be.revertedWith("Invalid deadline");
     });
   });
@@ -157,7 +204,11 @@ describe("ERC721Escrow", function () {
       const deadline = (await time.latest()) + 86400;
 
       await mockNFT.connect(seller).approve(escrow.address, 1);
-      await escrow.connect(seller).createEscrow(buyer.address, mockNFT.address, 1, deadline, { value: price });
+      await escrow
+        .connect(seller)
+        .createEscrow(buyer.address, mockNFT.address, 1, deadline, {
+          value: price,
+        });
 
       return { ...base, price };
     }
@@ -181,7 +232,8 @@ describe("ERC721Escrow", function () {
     });
 
     it("Should complete escrow when both parties approve", async function () {
-      const { escrow, mockNFT, seller, buyer, feeRecipient, price } = await loadFixture(createEscrowFixture);
+      const { escrow, mockNFT, seller, buyer, feeRecipient, price } =
+        await loadFixture(createEscrowFixture);
 
       const sellerInitialBalance = await seller.getBalance();
       const feeRecipientInitialBalance = await feeRecipient.getBalance();
@@ -204,23 +256,28 @@ describe("ERC721Escrow", function () {
       const sellerFinalBalance = await seller.getBalance();
       const feeRecipientFinalBalance = await feeRecipient.getBalance();
 
-      expect(sellerFinalBalance).to.be.closeTo(sellerInitialBalance.add(sellerAmount), ethers.utils.parseEther("0.01"));
-      expect(feeRecipientFinalBalance).to.equal(feeRecipientInitialBalance.add(fee));
+      expect(sellerFinalBalance).to.be.closeTo(
+        sellerInitialBalance.add(sellerAmount),
+        ethers.utils.parseEther("0.01"),
+      );
+      expect(feeRecipientFinalBalance).to.equal(
+        feeRecipientInitialBalance.add(fee),
+      );
     });
 
     it("Should not allow non-participants to approve", async function () {
       const { escrow, other } = await loadFixture(createEscrowFixture);
 
-      await expect(
-        escrow.connect(other).approveEscrow(1)
-      ).to.be.revertedWith("Not authorized");
+      await expect(escrow.connect(other).approveEscrow(1)).to.be.revertedWith(
+        "Not authorized",
+      );
     });
 
     it("Should not allow approval of non-existent escrow", async function () {
       const { escrow, seller } = await loadFixture(createEscrowFixture);
 
       await expect(
-        escrow.connect(seller).approveEscrow(999)
+        escrow.connect(seller).approveEscrow(999),
       ).to.be.revertedWith("Invalid escrow ID");
     });
   });
@@ -234,13 +291,18 @@ describe("ERC721Escrow", function () {
       const deadline = (await time.latest()) + 86400;
 
       await mockNFT.connect(seller).approve(escrow.address, 1);
-      await escrow.connect(seller).createEscrow(buyer.address, mockNFT.address, 1, deadline, { value: price });
+      await escrow
+        .connect(seller)
+        .createEscrow(buyer.address, mockNFT.address, 1, deadline, {
+          value: price,
+        });
 
       return { ...base, price };
     }
 
     it("Should allow seller to cancel escrow", async function () {
-      const { escrow, mockNFT, seller, buyer, price } = await loadFixture(createEscrowFixture);
+      const { escrow, mockNFT, seller, buyer, price } =
+        await loadFixture(createEscrowFixture);
 
       const buyerInitialBalance = await buyer.getBalance();
 
@@ -261,7 +323,8 @@ describe("ERC721Escrow", function () {
     });
 
     it("Should allow buyer to cancel escrow", async function () {
-      const { escrow, mockNFT, seller, buyer, price } = await loadFixture(createEscrowFixture);
+      const { escrow, mockNFT, seller, buyer, price } =
+        await loadFixture(createEscrowFixture);
 
       const buyerInitialBalance = await buyer.getBalance();
 
@@ -276,7 +339,8 @@ describe("ERC721Escrow", function () {
     });
 
     it("Should allow cancellation after deadline", async function () {
-      const { escrow, mockNFT, seller, buyer, other, price } = await loadFixture(createEscrowFixture);
+      const { escrow, mockNFT, seller, buyer, other, price } =
+        await loadFixture(createEscrowFixture);
 
       // Fast forward past deadline
       await time.increase(86401); // 1 day + 1 second
@@ -290,9 +354,9 @@ describe("ERC721Escrow", function () {
     it("Should not allow non-participants to cancel before deadline", async function () {
       const { escrow, other } = await loadFixture(createEscrowFixture);
 
-      await expect(
-        escrow.connect(other).cancelEscrow(1)
-      ).to.be.revertedWith("Not authorized to cancel");
+      await expect(escrow.connect(other).cancelEscrow(1)).to.be.revertedWith(
+        "Not authorized to cancel",
+      );
     });
   });
 
@@ -305,7 +369,11 @@ describe("ERC721Escrow", function () {
       const deadline = (await time.latest()) + 86400;
 
       await mockNFT.connect(seller).approve(escrow.address, 1);
-      await escrow.connect(seller).createEscrow(buyer.address, mockNFT.address, 1, deadline, { value: price });
+      await escrow
+        .connect(seller)
+        .createEscrow(buyer.address, mockNFT.address, 1, deadline, {
+          value: price,
+        });
 
       return { ...base, price };
     }
@@ -328,12 +396,20 @@ describe("ERC721Escrow", function () {
       await time.increase(86400 + 7 * 86400 + 1); // 1 day + 7 days + 1 second
 
       await expect(
-        escrow.connect(seller).initiateDispute(1)
+        escrow.connect(seller).initiateDispute(1),
       ).to.be.revertedWith("Dispute window closed");
     });
 
     it("Should allow dispute resolver to resolve in favor of buyer", async function () {
-      const { escrow, mockNFT, seller, buyer, disputeResolver, feeRecipient, price } = await loadFixture(createEscrowFixture);
+      const {
+        escrow,
+        mockNFT,
+        seller,
+        buyer,
+        disputeResolver,
+        feeRecipient,
+        price,
+      } = await loadFixture(createEscrowFixture);
 
       // Initiate dispute
       await escrow.connect(seller).initiateDispute(1);
@@ -356,12 +432,18 @@ describe("ERC721Escrow", function () {
       const sellerFinalBalance = await seller.getBalance();
       const feeRecipientFinalBalance = await feeRecipient.getBalance();
 
-      expect(sellerFinalBalance).to.be.closeTo(sellerInitialBalance.add(sellerAmount), ethers.utils.parseEther("0.01"));
-      expect(feeRecipientFinalBalance).to.equal(feeRecipientInitialBalance.add(fee));
+      expect(sellerFinalBalance).to.be.closeTo(
+        sellerInitialBalance.add(sellerAmount),
+        ethers.utils.parseEther("0.01"),
+      );
+      expect(feeRecipientFinalBalance).to.equal(
+        feeRecipientInitialBalance.add(fee),
+      );
     });
 
     it("Should allow dispute resolver to resolve in favor of seller", async function () {
-      const { escrow, mockNFT, seller, buyer, disputeResolver, price } = await loadFixture(createEscrowFixture);
+      const { escrow, mockNFT, seller, buyer, disputeResolver, price } =
+        await loadFixture(createEscrowFixture);
 
       // Initiate dispute
       await escrow.connect(seller).initiateDispute(1);
@@ -386,7 +468,7 @@ describe("ERC721Escrow", function () {
       await escrow.connect(seller).initiateDispute(1);
 
       await expect(
-        escrow.connect(seller).resolveDispute(1, true)
+        escrow.connect(seller).resolveDispute(1, true),
       ).to.be.revertedWith("Only dispute resolver");
     });
   });
@@ -406,7 +488,7 @@ describe("ERC721Escrow", function () {
       const { escrow, owner } = await loadFixture(deployEscrowFixture);
 
       await expect(
-        escrow.connect(owner).setEscrowFee(1001) // More than 10%
+        escrow.connect(owner).setEscrowFee(1001), // More than 10%
       ).to.be.revertedWith("Fee too high");
     });
 
@@ -421,7 +503,7 @@ describe("ERC721Escrow", function () {
       const { escrow, owner } = await loadFixture(deployEscrowFixture);
 
       await expect(
-        escrow.connect(owner).setFeeRecipient(ethers.constants.AddressZero)
+        escrow.connect(owner).setFeeRecipient(ethers.constants.AddressZero),
       ).to.be.revertedWith("Invalid address");
     });
   });
@@ -435,7 +517,8 @@ describe("ERC721Escrow", function () {
     });
 
     it("Should not allow creating escrow when paused", async function () {
-      const { escrow, mockNFT, seller, buyer, owner } = await loadFixture(deployEscrowFixture);
+      const { escrow, mockNFT, seller, buyer, owner } =
+        await loadFixture(deployEscrowFixture);
 
       await escrow.connect(owner).pause();
 
@@ -445,19 +528,28 @@ describe("ERC721Escrow", function () {
       await mockNFT.connect(seller).approve(escrow.address, 1);
 
       await expect(
-        escrow.connect(seller).createEscrow(buyer.address, mockNFT.address, 1, deadline, { value: price })
+        escrow
+          .connect(seller)
+          .createEscrow(buyer.address, mockNFT.address, 1, deadline, {
+            value: price,
+          }),
       ).to.be.revertedWith("Pausable: paused");
     });
 
     it("Should allow owner to emergency withdraw when paused", async function () {
-      const { escrow, mockNFT, seller, buyer, owner } = await loadFixture(deployEscrowFixture);
+      const { escrow, mockNFT, seller, buyer, owner } =
+        await loadFixture(deployEscrowFixture);
 
       // Create an escrow first
       const price = ethers.utils.parseEther("1.0");
       const deadline = (await time.latest()) + 86400;
 
       await mockNFT.connect(seller).approve(escrow.address, 1);
-      await escrow.connect(seller).createEscrow(buyer.address, mockNFT.address, 1, deadline, { value: price });
+      await escrow
+        .connect(seller)
+        .createEscrow(buyer.address, mockNFT.address, 1, deadline, {
+          value: price,
+        });
 
       // Pause and withdraw
       await escrow.connect(owner).pause();
@@ -468,7 +560,9 @@ describe("ERC721Escrow", function () {
       const gasUsed = receipt.gasUsed.mul(tx.gasPrice);
 
       const ownerFinalBalance = await owner.getBalance();
-      expect(ownerFinalBalance).to.equal(ownerInitialBalance.add(price).sub(gasUsed));
+      expect(ownerFinalBalance).to.equal(
+        ownerInitialBalance.add(price).sub(gasUsed),
+      );
     });
   });
 
@@ -482,16 +576,26 @@ describe("ERC721Escrow", function () {
       const deadline = (await time.latest()) + 86400;
 
       await mockNFT.connect(seller).approve(escrow.address, 1);
-      await escrow.connect(seller).createEscrow(buyer.address, mockNFT.address, 1, deadline, { value: price });
+      await escrow
+        .connect(seller)
+        .createEscrow(buyer.address, mockNFT.address, 1, deadline, {
+          value: price,
+        });
 
       await mockNFT.connect(seller).approve(escrow.address, 2);
-      await escrow.connect(seller).createEscrow(buyer.address, mockNFT.address, 2, deadline, { value: price });
+      await escrow
+        .connect(seller)
+        .createEscrow(buyer.address, mockNFT.address, 2, deadline, {
+          value: price,
+        });
 
       return base;
     }
 
     it("Should return user escrows correctly", async function () {
-      const { escrow, seller, buyer } = await loadFixture(createMultipleEscrowsFixture);
+      const { escrow, seller, buyer } = await loadFixture(
+        createMultipleEscrowsFixture,
+      );
 
       const sellerEscrows = await escrow.getUserEscrows(seller.address);
       const buyerEscrows = await escrow.getUserEscrows(buyer.address);
@@ -503,10 +607,12 @@ describe("ERC721Escrow", function () {
     });
 
     it("Should return correct escrow details", async function () {
-      const { escrow, mockNFT, seller, buyer } = await loadFixture(createMultipleEscrowsFixture);
+      const { escrow, mockNFT, seller, buyer } = await loadFixture(
+        createMultipleEscrowsFixture,
+      );
 
       const escrowData = await escrow.getEscrow(1);
-      
+
       expect(escrowData.seller).to.equal(seller.address);
       expect(escrowData.buyer).to.equal(buyer.address);
       expect(escrowData.nftContract).to.equal(mockNFT.address);
@@ -540,5 +646,5 @@ contract MockERC721 is ERC721 {
 
 // Export the mock contract source for use in other tests
 module.exports = {
-  MockERC721Source
+  MockERC721Source,
 };
