@@ -1,0 +1,28 @@
+{
+  "name": "erc721-kit-sandbox",
+  "version": "1.0.0",
+  "description": "Interactive sandbox for testing ERC721 Kit components",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server . -p 3001 -o",
+    "dev": "npx live-server --port=3001 --open=/",
+    "build": "echo 'Sandbox is ready for deployment'",
+    "serve": "npx serve . -l 3001"
+  },
+  "keywords": [
+    "nft",
+    "ethereum",
+    "erc721",
+    "marketplace",
+    "blockchain",
+    "demo",
+    "sandbox"
+  ],
+  "author": "ERC721 Kit Team",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2",
+    "serve": "^14.2.0"
+  }
+}
