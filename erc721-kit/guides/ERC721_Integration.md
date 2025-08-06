@@ -205,7 +205,29 @@ function MyNFTApp() {
       ) : (
         <div>
           <p>Connected: {userAddress}</p>
-          {/* Your NFT interface here */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white p-6 rounded-lg shadow">
+              <h3 className="text-lg font-semibold mb-4">My NFTs</h3>
+              <NFTGallery
+                nfts={userListings}
+                onNFTClick={(nft) => setSelectedNFT(nft)}
+                showPrices={true}
+                loading={loading}
+              />
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow">
+              <h3 className="text-lg font-semibold mb-4">Active Escrows</h3>
+              <div className="space-y-3">
+                {escrows.map(escrow => (
+                  <div key={escrow.id} className="border p-3 rounded">
+                    <p>Escrow #{escrow.id}</p>
+                    <p>Status: {escrow.status}</p>
+                    <p>Price: {ethers.utils.formatEther(escrow.price)} ETH</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
