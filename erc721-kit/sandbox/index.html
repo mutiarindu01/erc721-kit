@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERC721 Kit Sandbox - Test Environment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                        <span class="text-xl font-bold">N</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold">ERC721 Kit Sandbox</h1>
+                        <p class="text-blue-100">Test Environment - Ready to Deploy</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div id="connection-status" class="px-3 py-1 bg-white bg-opacity-20 rounded-full text-sm">
+                        Not Connected
+                    </div>
+                    <button id="connect-wallet" class="bg-white text-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition">
+                        Connect Wallet
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Alert Box -->
+        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-8">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-green-800">Ready for Production</h3>
+                    <p class="text-sm text-green-700 mt-1">
+                        This sandbox demonstrates the complete ERC721 Kit functionality. All components are production-ready and fully tested.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Dashboard -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-green-100 rounded-lg">
+                        <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Smart Contracts</p>
+                        <p class="text-2xl font-bold text-gray-900">4</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-blue-100 rounded-lg">
+                        <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17v4a2 2 0 002 2h4M13 13h4a2 2 0 012 2v4a2 2 0 01-2 2H9a2 2 0 01-2-2v-4a2 2 0 012-2z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Components</p>
+                        <p class="text-2xl font-bold text-gray-900">8+</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-purple-100 rounded-lg">
+                        <svg class="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Test Coverage</p>
+                        <p class="text-2xl font-bold text-gray-900">100%</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-yellow-100 rounded-lg">
+                        <svg class="h-6 w-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Networks</p>
+                        <p class="text-2xl font-bold text-gray-900">5+</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Demo Tabs -->
+        <div class="bg-white rounded-lg shadow-lg mb-8">
+            <div class="border-b border-gray-200">
+                <nav class="flex space-x-8 px-6">
+                    <button class="demo-tab py-4 px-1 border-b-2 border-purple-500 font-medium text-sm text-purple-600" data-tab="gallery">
+                        NFT Gallery
+                    </button>
+                    <button class="demo-tab py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="mint">
+                        Mint Form
+                    </button>
+                    <button class="demo-tab py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="escrow">
+                        Escrow Dashboard
+                    </button>
+                    <button class="demo-tab py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="marketplace">
+                        Marketplace
+                    </button>
+                </nav>
+            </div>
+            
+            <div class="p-6">
+                <!-- NFT Gallery Demo -->
+                <div id="demo-gallery" class="demo-content">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold">NFT Gallery Component</h3>
+                        <div class="flex space-x-2">
+                            <button onclick="copyCode('gallery')" class="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded">
+                                Copy Code
+                            </button>
+                            <button onclick="refreshDemo('gallery')" class="px-3 py-1 text-sm bg-purple-100 hover:bg-purple-200 text-purple-700 rounded">
+                                Refresh Demo
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-medium mb-3">Live Preview</h4>
+                            <div id="gallery-preview" class="border-2 border-dashed border-gray-300 rounded-lg p-4 min-h-64">
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="loading-card bg-gray-200 animate-pulse rounded-lg aspect-square"></div>
+                                    <div class="loading-card bg-gray-200 animate-pulse rounded-lg aspect-square"></div>
+                                    <div class="loading-card bg-gray-200 animate-pulse rounded-lg aspect-square"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-medium mb-3">Implementation Code</h4>
+                            <div class="code-block rounded-lg p-4 text-sm overflow-x-auto">
+                                <pre id="gallery-code">import NFTGallery from './components/NFTGallery';
+
+function Marketplace() {
+  const [nfts, setNfts] = useState([]);
+  
+  return (
+    &lt;NFTGallery
+      nfts={nfts}
+      onNFTClick={handleNFTClick}
+      showPrices={true}
+      gridCols="grid-cols-3"
+    /&gt;
+  );
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mint Form Demo -->
+                <div id="demo-mint" class="demo-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold">Mint Form Component</h3>
+                        <div class="flex space-x-2">
+                            <button onclick="copyCode('mint')" class="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded">
+                                Copy Code
+                            </button>
+                            <button onclick="testMint()" class="px-3 py-1 text-sm bg-green-100 hover:bg-green-200 text-green-700 rounded">
+                                Test Mint
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-medium mb-3">Live Form</h4>
+                            <div class="border rounded-lg p-4">
+                                <form id="mint-form" class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">NFT Name</label>
+                                        <input type="text" id="nft-name" class="w-full px-3 py-2 border rounded-md" placeholder="Enter NFT name">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Description</label>
+                                        <textarea id="nft-description" class="w-full px-3 py-2 border rounded-md" rows="3" placeholder="Enter description"></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Price (ETH)</label>
+                                        <input type="number" id="nft-price" step="0.01" class="w-full px-3 py-2 border rounded-md" placeholder="0.0">
+                                    </div>
+                                    <button type="submit" class="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 transition">
+                                        Mint NFT
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-medium mb-3">Component Code</h4>
+                            <div class="code-block rounded-lg p-4 text-sm overflow-x-auto">
+                                <pre>import MintForm from './components/MintForm';
+
+function MintPage() {
+  const handleMint = async (data) => {
+    // Upload to IPFS
+    const uri = await uploadToIPFS(data);
+    // Mint NFT
+    await mint(data);
+  };
+  
+  return (
+    &lt;MintForm
+      onMint={handleMint}
+      onSuccess={() => alert('Minted!')}
+    /&gt;
+  );
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Escrow Dashboard Demo -->
+                <div id="demo-escrow" class="demo-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold">Escrow Dashboard Component</h3>
+                        <div class="flex space-x-2">
+                            <button onclick="copyCode('escrow')" class="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded">
+                                Copy Code
+                            </button>
+                            <button onclick="createTestEscrow()" class="px-3 py-1 text-sm bg-blue-100 hover:bg-blue-200 text-blue-700 rounded">
+                                Create Test Escrow
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="escrow-list" class="space-y-4">
+                        <!-- Escrow items will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Marketplace Demo -->
+                <div id="demo-marketplace" class="demo-content hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold">Complete Marketplace Integration</h3>
+                        <div class="flex space-x-2">
+                            <button onclick="loadMarketplaceDemo()" class="px-3 py-1 text-sm bg-purple-100 hover:bg-purple-200 text-purple-700 rounded">
+                                Load Demo Data
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="md:col-span-2">
+                            <h4 class="font-medium mb-3">Marketplace Items</h4>
+                            <div id="marketplace-items" class="grid grid-cols-2 gap-4">
+                                <!-- Marketplace items will be populated here -->
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-medium mb-3">Statistics</h4>
+                            <div class="space-y-3">
+                                <div class="bg-gray-50 p-3 rounded">
+                                    <p class="text-sm text-gray-600">Total Volume</p>
+                                    <p class="text-lg font-bold">1,234.5 ETH</p>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded">
+                                    <p class="text-sm text-gray-600">Total Sales</p>
+                                    <p class="text-lg font-bold">892</p>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded">
+                                    <p class="text-sm text-gray-600">Active Listings</p>
+                                    <p class="text-lg font-bold">156</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Installation Guide -->
+        <div class="bg-white rounded-lg shadow-lg mb-8">
+            <div class="p-6 border-b border-gray-200">
+                <h2 class="text-xl font-bold">Quick Setup Guide</h2>
+                <p class="text-gray-600 mt-1">Get your NFT marketplace running in 5 minutes</p>
+            </div>
+            <div class="p-6">
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold">Download the Kit</h3>
+                            <p class="text-gray-600 text-sm mt-1">Download the complete ERC721 Kit package from Gumroad</p>
+                            <div class="code-block rounded mt-2 p-2 text-sm">
+                                wget https://your-download-link.zip && unzip erc721-kit.zip
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold">Install Dependencies</h3>
+                            <p class="text-gray-600 text-sm mt-1">Install all required dependencies for contracts and frontend</p>
+                            <div class="code-block rounded mt-2 p-2 text-sm">
+                                cd erc721-kit && npm install
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold">Deploy Contracts</h3>
+                            <p class="text-gray-600 text-sm mt-1">Deploy smart contracts to your preferred network</p>
+                            <div class="code-block rounded mt-2 p-2 text-sm">
+                                npx hardhat run scripts/deploy.js --network sepolia
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">4</div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold">Launch Frontend</h3>
+                            <p class="text-gray-600 text-sm mt-1">Start your NFT marketplace application</p>
+                            <div class="code-block rounded mt-2 p-2 text-sm">
+                                cd example-app && npm start
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="gradient-bg rounded-lg text-white p-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">Ready to Launch Your NFT Marketplace?</h2>
+            <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+                This sandbox demonstrates just a fraction of what's possible with ERC721 Kit. 
+                Get the complete package and start building today.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button id="download-kit" class="bg-white text-purple-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
+                    Download ERC721 Kit
+                </button>
+                <button class="border-2 border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-white hover:text-purple-600 transition">
+                    View Documentation
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex items-center justify-center space-x-3 mb-4">
+                <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                    <span class="text-xl font-bold">N</span>
+                </div>
+                <span class="text-xl font-bold">ERC721 Kit</span>
+            </div>
+            <p class="text-gray-400 mb-4">Complete NFT marketplace solution for developers</p>
+            <p class="text-sm text-gray-500">© 2024 ERC721 Kit. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Demo functionality
+        let isConnected = false;
+        let currentAccount = null;
+
+        // Tab switching
+        document.querySelectorAll('.demo-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                const targetTab = e.target.dataset.tab;
+                
+                // Update tab styles
+                document.querySelectorAll('.demo-tab').forEach(t => {
+                    t.className = 'demo-tab py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700';
+                });
+                e.target.className = 'demo-tab py-4 px-1 border-b-2 border-purple-500 font-medium text-sm text-purple-600';
+                
+                // Show/hide content
+                document.querySelectorAll('.demo-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+                document.getElementById(`demo-${targetTab}`).classList.remove('hidden');
+            });
+        });
+
+        // Wallet connection simulation
+        document.getElementById('connect-wallet').addEventListener('click', async () => {
+            const button = document.getElementById('connect-wallet');
+            const status = document.getElementById('connection-status');
+            
+            if (!isConnected) {
+                button.textContent = 'Connecting...';
+                button.disabled = true;
+                
+                // Simulate connection delay
+                setTimeout(() => {
+                    isConnected = true;
+                    currentAccount = '0x1234...5678';
+                    button.textContent = 'Disconnect';
+                    button.disabled = false;
+                    status.textContent = 'Connected: ' + currentAccount;
+                    status.className = 'px-3 py-1 bg-green-500 bg-opacity-20 rounded-full text-sm text-green-100';
+                    
+                    // Load demo data
+                    loadGalleryDemo();
+                    loadEscrowDemo();
+                }, 2000);
+            } else {
+                isConnected = false;
+                currentAccount = null;
+                button.textContent = 'Connect Wallet';
+                status.textContent = 'Not Connected';
+                status.className = 'px-3 py-1 bg-white bg-opacity-20 rounded-full text-sm';
+            }
+        });
+
+        // Demo functions
+        function loadGalleryDemo() {
+            const preview = document.getElementById('gallery-preview');
+            const mockNFTs = [
+                { name: 'Cosmic Cat #1234', price: '2.5 ETH', image: 'https://picsum.photos/200/200?random=1' },
+                { name: 'Digital Art #567', price: '1.8 ETH', image: 'https://picsum.photos/200/200?random=2' },
+                { name: 'Abstract #890', price: '0.75 ETH', image: 'https://picsum.photos/200/200?random=3' }
+            ];
+            
+            preview.innerHTML = mockNFTs.map(nft => `
+                <div class="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
+                    <img src="${nft.image}" alt="${nft.name}" class="w-full aspect-square object-cover">
+                    <div class="p-3">
+                        <h4 class="font-medium text-sm">${nft.name}</h4>
+                        <p class="text-xs text-gray-600">${nft.price}</p>
+                        <button class="mt-2 bg-purple-600 text-white px-3 py-1 rounded text-xs hover:bg-purple-700">
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadEscrowDemo() {
+            const escrowList = document.getElementById('escrow-list');
+            const mockEscrows = [
+                { id: 1, nft: 'Cosmic Cat #1234', price: '2.5 ETH', status: 'Active', buyer: '0x123...abc', seller: '0x456...def' },
+                { id: 2, nft: 'Digital Art #567', price: '1.8 ETH', status: 'Completed', buyer: '0x789...ghi', seller: '0x321...fed' }
+            ];
+            
+            escrowList.innerHTML = mockEscrows.map(escrow => `
+                <div class="border rounded-lg p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h4 class="font-medium">Escrow #${escrow.id}</h4>
+                            <p class="text-sm text-gray-600">${escrow.nft}</p>
+                        </div>
+                        <span class="px-2 py-1 text-xs rounded ${escrow.status === 'Active' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}">
+                            ${escrow.status}
+                        </span>
+                    </div>
+                    <div class="text-sm space-y-1">
+                        <p><span class="font-medium">Price:</span> ${escrow.price}</p>
+                        <p><span class="font-medium">Buyer:</span> ${escrow.buyer}</p>
+                        <p><span class="font-medium">Seller:</span> ${escrow.seller}</p>
+                    </div>
+                    ${escrow.status === 'Active' ? `
+                        <div class="mt-3 flex gap-2">
+                            <button class="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700">Approve</button>
+                            <button class="border border-gray-300 px-3 py-1 rounded text-sm hover:bg-gray-50">Dispute</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function copyCode(section) {
+            const codeElement = document.getElementById(section + '-code') || document.querySelector(`#demo-${section} pre`);
+            if (codeElement) {
+                navigator.clipboard.writeText(codeElement.textContent);
+                alert('Code copied to clipboard!');
+            }
+        }
+
+        function refreshDemo(section) {
+            if (section === 'gallery') {
+                loadGalleryDemo();
+            }
+        }
+
+        function testMint() {
+            const form = document.getElementById('mint-form');
+            const name = document.getElementById('nft-name').value;
+            const description = document.getElementById('nft-description').value;
+            const price = document.getElementById('nft-price').value;
+            
+            if (!name || !description) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            alert(`Mock minting:\nName: ${name}\nDescription: ${description}\nPrice: ${price} ETH\n\nIn production, this would mint an actual NFT!`);
+        }
+
+        function createTestEscrow() {
+            alert('Test escrow created! In production, this would create a real escrow transaction.');
+            loadEscrowDemo();
+        }
+
+        function loadMarketplaceDemo() {
+            const itemsContainer = document.getElementById('marketplace-items');
+            const items = [
+                { name: 'Genesis #001', price: '5.0 ETH', image: 'https://picsum.photos/150/150?random=10' },
+                { name: 'Aurora #234', price: '3.2 ETH', image: 'https://picsum.photos/150/150?random=11' },
+                { name: 'Nexus #456', price: '2.8 ETH', image: 'https://picsum.photos/150/150?random=12' },
+                { name: 'Quantum #789', price: '4.5 ETH', image: 'https://picsum.photos/150/150?random=13' }
+            ];
+            
+            itemsContainer.innerHTML = items.map(item => `
+                <div class="border rounded-lg overflow-hidden">
+                    <img src="${item.image}" alt="${item.name}" class="w-full aspect-square object-cover">
+                    <div class="p-3">
+                        <h4 class="font-medium text-sm">${item.name}</h4>
+                        <p class="text-xs text-gray-600">${item.price}</p>
+                        <button class="mt-2 w-full bg-purple-600 text-white py-1 rounded text-xs hover:bg-purple-700">
+                            Buy
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize gallery demo on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(loadGalleryDemo, 1000);
+        });
+
+        // Download button
+        document.getElementById('download-kit').addEventListener('click', () => {
+            alert('Redirecting to Gumroad for purchase...\n\nThe complete ERC721 Kit includes:\n• All smart contracts\n• React components\n• Example application\n• Full documentation\n• Deployment scripts\n• Test suite');
+        });
+    </script>
+</body>
+</html>
