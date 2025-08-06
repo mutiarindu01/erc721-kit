@@ -18,18 +18,21 @@ ERC721 Kit adalah solusi lengkap untuk membangun marketplace NFT dengan fitur-fi
 ## ✨ Fitur Utama
 
 ### 🔐 Smart Contracts
+
 - **ERC721Escrow**: Sistem escrow dengan dispute resolution
 - **ERC721Marketplace**: Marketplace dengan listing, bidding, dan offers
 - **RoyaltyEngine**: Manajemen royalty yang kompatibel dengan EIP-2981
 - **MockNFT**: Contoh kontrak NFT dengan minting dan royalty
 
 ### 🎨 Frontend Components
+
 - **NFTGallery**: Gallery responsif dengan filter dan search
 - **MintForm**: Form minting lengkap dengan upload dan validasi
 - **EscrowDashboard**: Dashboard untuk mengelola transaksi escrow
 - **WalletConnector**: Integrasi multi-wallet (MetaMask, WalletConnect, dll)
 
 ### 🛠 Development Tools
+
 - Script deployment multi-chain
 - Verifikasi kontrak otomatis
 - Test suite komprehensif
@@ -46,6 +49,7 @@ ERC721 Kit adalah solusi lengkap untuk membangun marketplace NFT dengan fitur-fi
 ### Quick Start
 
 1. **Clone dan Install**
+
    ```bash
    git clone <repository-url>
    cd erc721-kit
@@ -53,22 +57,26 @@ ERC721 Kit adalah solusi lengkap untuk membangun marketplace NFT dengan fitur-fi
    ```
 
 2. **Setup Environment**
+
    ```bash
    cp .env.example .env
    # Edit .env dengan konfigurasi Anda
    ```
 
 3. **Compile Contracts**
+
    ```bash
    npx hardhat compile
    ```
 
 4. **Run Tests**
+
    ```bash
    npx hardhat test
    ```
 
 5. **Deploy ke Testnet**
+
    ```bash
    npx hardhat run scripts/deploy.js --network sepolia
    ```
@@ -92,14 +100,14 @@ module.exports = {
     sepolia: {
       url: `https://sepolia.infura.io/v3/${INFURA_KEY}`,
       accounts: [PRIVATE_KEY],
-      chainId: 11155111
+      chainId: 11155111,
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
       accounts: [PRIVATE_KEY],
-      chainId: 1
-    }
-  }
+      chainId: 1,
+    },
+  },
 };
 ```
 
@@ -151,20 +159,12 @@ npx hardhat test test/ERC721Escrow.test.js
 ### Basic Integration
 
 ```javascript
-import useERC721Marketplace from './hooks/useERC721Marketplace';
-import NFTGallery from './components/NFTGallery';
+import useERC721Marketplace from "./hooks/useERC721Marketplace";
+import NFTGallery from "./components/NFTGallery";
 
 function MyApp() {
-  const {
-    isConnected,
-    connectWallet,
-    listItem,
-    buyItem,
-    userListings
-  } = useERC721Marketplace(
-    MARKETPLACE_ADDRESS,
-    ESCROW_ADDRESS
-  );
+  const { isConnected, connectWallet, listItem, buyItem, userListings } =
+    useERC721Marketplace(MARKETPLACE_ADDRESS, ESCROW_ADDRESS);
 
   return (
     <div>
@@ -185,6 +185,7 @@ function MyApp() {
 ### Complete Example App
 
 Lihat folder `example-app/` untuk implementasi lengkap dengan:
+
 - Routing menggunakan React Router
 - State management dengan Context API
 - Multi-wallet support
@@ -226,27 +227,27 @@ const {
   isConnected,
   isLoading,
   userAddress,
-  
+
   // Connection functions
   connectWallet,
   disconnectWallet,
-  
+
   // Marketplace functions
   listItem,
   buyItem,
   createOffer,
-  
+
   // Escrow functions
   createEscrow,
   approveEscrow,
-  
+
   // Data
   userListings,
   userOffers,
   escrows,
-  
+
   // Utilities
-  refresh
+  refresh,
 } = useERC721Marketplace(marketplaceAddress, escrowAddress);
 ```
 
@@ -381,4 +382,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-*Terakhir diupdate: Desember 2024*
+_Terakhir diupdate: Desember 2024_
